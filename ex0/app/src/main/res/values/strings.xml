@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Tap Counter</string>
+    <string name="press_button_to_start">Press Button To Start</string>
+</resources>
