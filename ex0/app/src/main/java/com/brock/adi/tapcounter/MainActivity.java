@@ -3,7 +3,6 @@ package com.brock.adi.tapcounter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,26 +14,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        counterText = findViewById(R.id.counterText);
 
         if (savedInstanceState != null){
             counter = savedInstanceState.getInt(KEY_COUNT);
         }
 
-        counterText = findViewById(R.id.counterText);
-//        counterText.setTextSize(64);
-        setNumberOfTaps();
+        if (counter == 0) {
+            counterText.setText(R.string.press_button_to_start);
+        } else{
+            setNumberOfTaps();
+        }
 
-
-//        counterText.setText(R.string.press_button_to_start);
-//        counterText.setTextSize(24);
-
-//        Button counterButton = findViewById(R.id.counterButton);
-//        counterButton.setOnClickListener(new View.OnClickListener(){
-        findViewById(R.id.counterButton).setOnClickListener(new View.OnClickListener(){;
+        findViewById(R.id.counterButton).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-//                counterText.setText("" + (++MainActivity.this.counter));
-//                    counterText.setTextSize(64);
                     counter ++;
                     setNumberOfTaps();
                 }
