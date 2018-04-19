@@ -7,25 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView;
+        TextView message;
+        TextView timeStamp;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.text_in_card);
+            message = itemView.findViewById(R.id.item_massage);
+            timeStamp = itemView.findViewById(R.id.item_timestamp);
+
         }
     }
 
-    private ArrayList<String> messages = new ArrayList<>();
+    private ArrayList<Message> messages = new ArrayList<>();
 
     public void addMessage(String message){
-        messages.add(message);
+        messages.add(new Message(message));
         notifyItemInserted(messages.size() - 1);
     }
 
@@ -39,8 +43,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        String curMessage = messages.get(position);
-        holder.textView.setText(curMessage);
+        Message curMessage = messages.get(position);
+        holder.message.setText(curMessage.message);
+        holder.timeStamp.setText(curMessage.timeStamp);
     }
 
     @Override
