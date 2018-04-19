@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final MessageAdapter messageAdapter = new MessageAdapter();
-        RecyclerView recyclerView = findViewById(R.id.recycler);
+        final RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setAdapter(messageAdapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 String message = edit.getText().toString();
                 messageAdapter.addMessage(message);
+                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
                 edit.setText("");
             }
         });
