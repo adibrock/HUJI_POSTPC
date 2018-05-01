@@ -10,6 +10,7 @@ public class MessageViewModel extends ViewModel {
     public ArrayList<Message> myMessages;
     public MutableLiveData<Message> curPressedMsg = new MutableLiveData<>();
     public MutableLiveData<Message> msgTODelete = new MutableLiveData<>();
+    public MutableLiveData<Message> msgTOAdd = new MutableLiveData<>();
 
 
 }

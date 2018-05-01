@@ -1,14 +1,12 @@
 package com.brock.adi.selfmessageboard;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,29 +24,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         viewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
         viewModel.myMessages  = loadData();
-        final MessageAdapter messageAdapter = new MessageAdapter(viewModel.myMessages);
-        final RecyclerView recyclerView = findViewById(R.id.recycler);
-        recyclerView.setAdapter(messageAdapter);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(manager);
 
-        final EditText edit = findViewById(R.id.editText);
-
-        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener(){
+        viewModel.msgTOAdd.observe(this, new Observer<Message>() {
             @Override
-            public void onClick(View v){
-                String fromUser = edit.getText().toString();
-                if (fromUser.isEmpty()) {return;}
-                viewModel.myMessages.add(new Message(fromUser));
-                messageAdapter.notifyItemInserted(viewModel.myMessages.size() - 1);
-                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-                edit.setText("");
+            public void onChanged(@Nullable Message message) {
+                if (message == null){return;}
+                viewModel.myMessages.add(message);
             }
         });
+
+        MessagesListFragment fragment = new MessagesListFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+
     }
 
     @Override
