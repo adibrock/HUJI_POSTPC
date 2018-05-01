@@ -1,5 +1,6 @@
 package com.brock.adi.selfmessageboard;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,15 +19,17 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private final static String KEY_JSON = "jasonKey";
-    ArrayList<Message> myMessages;
+    MessageViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        myMessages  = loadData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final MessageAdapter messageAdapter = new MessageAdapter(myMessages);
+
+        viewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
+        viewModel.myMessages  = loadData();
+        final MessageAdapter messageAdapter = new MessageAdapter(viewModel.myMessages);
         final RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setAdapter(messageAdapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this,
@@ -40,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 String fromUser = edit.getText().toString();
                 if (fromUser.isEmpty()) {return;}
-                myMessages.add(new Message(fromUser));
-                messageAdapter.notifyItemInserted(myMessages.size() - 1);
+                viewModel.myMessages.add(new Message(fromUser));
+                messageAdapter.notifyItemInserted(viewModel.myMessages.size() - 1);
                 recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
                 edit.setText("");
             }
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        saveData(myMessages);
+        saveData(viewModel.myMessages);
     }
 
     private ArrayList<Message> loadData(){

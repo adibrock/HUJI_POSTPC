@@ -2,6 +2,7 @@ package com.brock.adi.selfmessageboard;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             super(itemView);
             message = itemView.findViewById(R.id.item_massage);
             timeStamp = itemView.findViewById(R.id.item_timestamp);
-
         }
     }
-
 
     public MessageAdapter(ArrayList<Message> messages) {
         this.messages = messages;
@@ -44,6 +43,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Message curMessage = messages.get(position);
         holder.message.setText(curMessage.message);
         holder.timeStamp.setText(curMessage.timeStamp);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d("adapter", "been here");
+                return true;
+            }
+        });
     }
 
     @Override
