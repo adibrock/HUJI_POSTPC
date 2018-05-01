@@ -11,6 +11,7 @@ public class MessageViewModel extends ViewModel {
     public MutableLiveData<Message> curPressedMsg = new MutableLiveData<>();
     public MutableLiveData<Message> msgTODelete = new MutableLiveData<>();
     public MutableLiveData<Message> msgTOAdd = new MutableLiveData<>();
+    public MutableLiveData<Message> msgTOShare = new MutableLiveData<>();
 
 
 }

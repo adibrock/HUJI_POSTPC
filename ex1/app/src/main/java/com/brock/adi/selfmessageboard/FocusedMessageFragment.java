@@ -12,7 +12,7 @@ public class FocusedMessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_focused_message, container, false);
+        final View view = inflater.inflate(R.layout.fragment_focused_message, container, false);
 
         final MessageViewModel viewModel = ViewModelProviders.of(this.getActivity()).get(MessageViewModel.class);
         final Message message = viewModel.curPressedMsg.getValue();
@@ -29,6 +29,14 @@ public class FocusedMessageFragment extends Fragment {
                 viewModel.msgTODelete.setValue(message);
             }
         });
+
+        view.findViewById(R.id.button_share).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                viewModel.msgTOShare.setValue(message);
+            }
+        });
+
 
         return view;
     }

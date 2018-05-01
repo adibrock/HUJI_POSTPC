@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SelfMessageBoard</string>
+    <string name="share_message">Share This Message!</string>
 </resources>
