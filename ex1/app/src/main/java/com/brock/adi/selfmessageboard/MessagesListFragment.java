@@ -22,7 +22,7 @@ public class MessagesListFragment extends Fragment {
 
 
         final MessageViewModel viewModel = ViewModelProviders.of(this.getActivity()).get(MessageViewModel.class);
-        final MessageAdapter messageAdapter = new MessageAdapter(viewModel.myMessages);
+        final MessageAdapter messageAdapter = new MessageAdapter(viewModel);
         final RecyclerView recyclerView = view.findViewById(R.id.recycler);
         recyclerView.setAdapter(messageAdapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getContext(),
@@ -42,6 +42,7 @@ public class MessagesListFragment extends Fragment {
                 edit.setText("");
             }
         });
+
 
 
         return view;

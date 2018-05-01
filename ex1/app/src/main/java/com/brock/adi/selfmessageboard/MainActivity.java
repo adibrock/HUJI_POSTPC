@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(MessageViewModel.class);
         viewModel.myMessages  = loadData();
 
+        final MessagesListFragment listFragment = new MessagesListFragment();
+        final FocusedMessageFragment msgFragment = new FocusedMessageFragment();
+
         viewModel.msgTOAdd.observe(this, new Observer<Message>() {
             @Override
             public void onChanged(@Nullable Message message) {
@@ -35,8 +38,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MessagesListFragment fragment = new MessagesListFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+        viewModel.curPressedMsg.observe(this, new Observer<Message>() {
+            @Override
+            public void onChanged(@Nullable Message message) {
+                if (message == null) {return;}
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, msgFragment).commit();
+            }
+        });
+
+        viewModel.msgTODelete.observe(this, new Observer<Message>() {
+            @Override
+            public void onChanged(@Nullable Message message) {
+                if(message == null) {return;}
+                viewModel.myMessages.remove(message);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, listFragment).commit();
+
+            }
+        });
+
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, listFragment).commit();
 
     }
 

@@ -2,13 +2,10 @@ package com.brock.adi.selfmessageboard;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
@@ -24,11 +21,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
     }
 
-    public MessageAdapter(ArrayList<Message> messages) {
-        this.messages = messages;
+    private MessageViewModel viewModel;
+
+    public MessageAdapter(MessageViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
-    private ArrayList<Message> messages;
 
     @NonNull
     @Override
@@ -40,13 +38,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message curMessage = messages.get(position);
+        final Message curMessage = viewModel.myMessages.get(position);
         holder.message.setText(curMessage.message);
         holder.timeStamp.setText(curMessage.timeStamp);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.d("adapter", "been here");
+                viewModel.curPressedMsg.setValue(curMessage);
                 return true;
             }
         });
@@ -54,6 +52,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return viewModel.myMessages.size();
     }
 }
