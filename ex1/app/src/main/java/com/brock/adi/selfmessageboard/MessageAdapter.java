@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
@@ -26,12 +24,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
     }
 
-    private ArrayList<Message> messages = new ArrayList<>();
 
-    public void addMessage(String message){
-        messages.add(new Message(message));
-        notifyItemInserted(messages.size() - 1);
+    public MessageAdapter(ArrayList<Message> messages) {
+        this.messages = messages;
     }
+
+    private ArrayList<Message> messages;
 
     @NonNull
     @Override
