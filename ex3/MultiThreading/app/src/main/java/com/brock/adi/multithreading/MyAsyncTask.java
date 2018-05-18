@@ -26,7 +26,7 @@ public class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                return null ;
             }
         }
         return null;

@@ -20,11 +20,11 @@ public class AsyncTaskActivity extends AppCompatActivity implements MyAsyncTask.
         findViewById(R.id.button_create).setOnClickListener(new  View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(asyncTask != null){
+                    return;
+                }
                 textView.setBackgroundColor(Color.WHITE);
                 textView.setText("Ready");
-                if(asyncTask != null){
-                    asyncTask.cancel(false);
-                }
                 asyncTask = new MyAsyncTask(AsyncTaskActivity.this);
                 asyncTaskStartedExecuting = false;
             }
@@ -45,7 +45,7 @@ public class AsyncTaskActivity extends AppCompatActivity implements MyAsyncTask.
             @Override
             public void onClick(View v) {
                 if (asyncTask != null){
-                    asyncTask.cancel(false);
+                    asyncTask.cancel(true);
                 }
             }
         });
@@ -66,7 +66,7 @@ public class AsyncTaskActivity extends AppCompatActivity implements MyAsyncTask.
     @Override
     public void onBackPressed() {
         if (asyncTask != null) {
-            asyncTask.cancel(false);
+            asyncTask.cancel(true);
         }
         super.onBackPressed();
     }
