@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
+
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         public ImageViewHolder(View itemView) {
@@ -18,8 +19,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         }
     }
 
+    interface OnImageClicked{
+        void onClicked(String url);
+    }
+
     private ArrayList<String> imageUrls = new ArrayList<>();
 
+    private final OnImageClicked onImageClicked;
+
+    public ImageAdapter(OnImageClicked onImageClicked) {
+        this.onImageClicked = onImageClicked;
+    }
 
     public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
@@ -35,19 +45,24 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
             GlideApp.with(holder.imageView.getContext()).
                     load(imageUrls.get(position)).
                     centerCrop().
                     into(holder.imageView);
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onImageClicked.onClicked(imageUrls.get(holder.getAdapterPosition()));
+                }
+            });
+
     }
 
     @Override
     public int getItemCount() {
         return imageUrls.size();
     }
-
-
 
 
 }

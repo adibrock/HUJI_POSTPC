@@ -1,5 +1,6 @@
 package com.brock.adi.imagedownloader;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,7 +9,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ImgurInternetCalls.OnDataReadyCallback {
+public class MainActivity extends AppCompatActivity implements ImgurInternetCalls.OnDataReadyCallback, ImageAdapter.OnImageClicked {
 
     ImageAdapter adapter;
     @Override
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements ImgurInternetCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        adapter = new ImageAdapter();
+        adapter = new ImageAdapter(this);
         RecyclerView imageRecyclerView = findViewById(R.id.recyclerView);
         imageRecyclerView.setAdapter(adapter);
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -36,6 +37,12 @@ public class MainActivity extends AppCompatActivity implements ImgurInternetCall
             imageUrls.add(link.link);
         }
         adapter.setImageUrls(imageUrls);
+    }
+
+    @Override
+    public void onClicked(String url) {
+        startActivity(SingleImageActivity.createStartingIntent(this, url));
+
     }
 }
 
