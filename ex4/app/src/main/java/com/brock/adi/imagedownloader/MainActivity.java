@@ -8,7 +8,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ImgurInternetCalls.OnDataReadyCallback {
 
     ImageAdapter adapter;
     @Override
@@ -16,12 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<String> imageUrls = new ArrayList<>();
-        imageUrls.add("http://i.imgur.com/jGkaxEZ.jpg");
-        imageUrls.add("http://i.imgur.com/cuS5DDv.jpg");
-        imageUrls.add("http://i.imgur.com/bl5DOR0.jpg");
-
-        adapter = new ImageAdapter(imageUrls);
+        adapter = new ImageAdapter();
         RecyclerView imageRecyclerView = findViewById(R.id.recyclerView);
         imageRecyclerView.setAdapter(adapter);
         imageRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -29,9 +24,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.downloadButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new ImgurInternetCalls(MainActivity.this);
             }
         });
+    }
+
+    @Override
+    public void onDataReady(ImgurInternetCalls.Data data) {
+        ArrayList<String> imageUrls = new ArrayList<>();
+        for(ImgurInternetCalls.Link link: data.data){
+            imageUrls.add(link.link);
+        }
+        adapter.setImageUrls(imageUrls);
     }
 }
 

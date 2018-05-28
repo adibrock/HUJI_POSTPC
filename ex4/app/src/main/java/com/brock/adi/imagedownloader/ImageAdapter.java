@@ -6,12 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-//import com.squareup.picasso.Picasso;
-
-import com.bumptech.glide.Glide;
-//import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
@@ -24,13 +18,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         }
     }
 
-    ArrayList<String> imageUrls;
+    private ArrayList<String> imageUrls = new ArrayList<>();
 
-    public ImageAdapter(ArrayList<String> imageUrls) {
+
+    public void setImageUrls(ArrayList<String> imageUrls) {
         this.imageUrls = imageUrls;
+        notifyDataSetChanged();
     }
-
-
 
     @NonNull
     @Override
@@ -42,7 +36,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-            GlideApp.with(holder.imageView.getContext()).load(imageUrls.get(position)).into(holder.imageView);
+            GlideApp.with(holder.imageView.getContext()).
+                    load(imageUrls.get(position)).
+                    centerCrop().
+                    into(holder.imageView);
     }
 
     @Override
